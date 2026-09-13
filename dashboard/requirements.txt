@@ -1,0 +1,9 @@
+# Dashboard dependencies.
+streamlit>=1.28
+streamlit-autorefresh>=1.0.1
+pandas>=2.0
+plotly>=5.17
+numpy>=1.24,<2
+python-dotenv>=1.0
+joblib>=1.3
+scikit-learn>=1.3

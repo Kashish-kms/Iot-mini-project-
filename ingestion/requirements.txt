@@ -1,0 +1,5 @@
+# Ingestion service dependencies.
+paho-mqtt>=1.6,<2
+pandas>=2.0
+numpy>=1.24,<2
+python-dotenv>=1.0

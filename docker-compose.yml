@@ -1,0 +1,133 @@
+# =============================================================================
+# Privacy-Aware AIoT — full stack (software-only simulator).
+#
+# Services:
+#   broker      : Eclipse Mosquitto 2.x, TLS on :8883, ACL + passwd auth
+#   simulator   : Python synthetic sensor → aggregated 1-min windows → MQTT
+#   ingestion   : MQTT subscriber → SQLite writer + periodic preprocessing
+#   dashboard   : Streamlit live UI on :8501 + live RandomForest inference
+#
+# Shared volumes:
+#   ./data           : host-visible SQLite DB (iot.db) so ingestion + dashboard
+#                      both see the same data and it survives restarts.
+#   broker-certs     : bind-mount of ./broker/certs so every client references
+#                      the same CA file used to verify the broker's identity.
+#
+# Environment:
+#   All services load the root .env file for MQTT credentials, DB paths, etc.
+# =============================================================================
+
+name: aiot-privacy
+
+services:
+
+  broker:
+    build:
+      context: ./broker
+      dockerfile: Dockerfile
+      args:
+        SIM_USER: ${MQTT_USERNAME:-sim_user}
+        SIM_USER_PASS: ${MQTT_PASSWORD:-sim_pass}
+        INGEST_USER: ${MQTT_INGEST_USERNAME:-ingest_user}
+        INGEST_USER_PASS: ${MQTT_INGEST_PASSWORD:-ingest_pass}
+    image: aiot-broker:latest
+    container_name: aiot-broker
+    restart: unless-stopped
+    ports:
+      - "8883:8883"
+    volumes:
+      - ./broker/certs:/mosquitto/certs-host:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -h localhost -p 8883 --cafile /mosquitto/certs/ca.crt -u healthcheck -P healthcheckpass -t '$$SYS/broker/uptime' -C 1 -W 3 2>/dev/null && echo ok || (echo 'fallback: checking listener'; ss -ltn | grep -q ':8883' && echo ok || exit 1)"]
+      interval: 15s
+      timeout: 5s
+      retries: 4
+      start_period: 5s
+    networks:
+      - aiot
+
+  simulator:
+    build:
+      context: .
+      dockerfile: ./simulator/Dockerfile
+    image: aiot-simulator:latest
+    container_name: aiot-simulator
+    restart: unless-stopped
+    depends_on:
+      broker:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - MQTT_HOST=broker
+      - MQTT_CA_CERT=/etc/ssl/certs/broker-ca.crt
+      - SIM_REALTIME=1
+    volumes:
+      - ./broker/certs/ca.crt:/etc/ssl/certs/broker-ca.crt:ro
+      - ./data:/data:rw
+    networks:
+      - aiot
+    stop_grace_period: 30s
+
+  ingestion:
+    build:
+      context: .
+      dockerfile: ./ingestion/Dockerfile
+    image: aiot-ingestion:latest
+    container_name: aiot-ingestion
+    restart: unless-stopped
+    depends_on:
+      broker:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - MQTT_HOST=broker
+      - MQTT_CA_CERT=/etc/ssl/certs/broker-ca.crt
+      - DB_PATH=/data/iot.db
+    volumes:
+      - ./broker/certs/ca.crt:/etc/ssl/certs/broker-ca.crt:ro
+      - ./data:/data:rw
+    networks:
+      - aiot
+    stop_grace_period: 30s
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: ./dashboard/Dockerfile
+    image: aiot-dashboard:latest
+    container_name: aiot-dashboard
+    restart: unless-stopped
+    depends_on:
+      ingestion:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      - DB_PATH=/data/iot.db
+      - REFRESH_SEC=${REFRESH_SEC:-10}
+      - DASH_WINDOW_MIN=${DASH_WINDOW_MIN:-60}
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/data:rw
+      # Dashboard needs trained model artifacts: mount ./ml/models read-only.
+      - ./ml/models:/app/ml/models:ro
+    networks:
+      - aiot
+    stop_grace_period: 30s
+
+# ---------------------------------------------------------------------------
+# Named / bind-mounted volumes.
+# ---------------------------------------------------------------------------
+volumes:
+  broker-certs:
+    driver: local
+
+# ---------------------------------------------------------------------------
+# Single dedicated network for all inter-service traffic.
+# ---------------------------------------------------------------------------
+networks:
+  aiot:
+    driver: bridge

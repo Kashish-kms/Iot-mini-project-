@@ -1,0 +1,28 @@
+# =============================================================================
+# Mosquitto topic ACL.
+#
+# Least-privilege per user. Default-deny: anything not explicitly allowed
+# below is silently denied by Mosquitto.
+#
+# Clients / roles:
+#   sim_user    = the Python sensor simulator (one role per physical device
+#                 in a real deployment; here exactly one synthetic device).
+#                 May only PUBLISH telemetry on its assigned room topic —
+#                 never subscribe (prevents a compromised simulator from
+#                 eavesdropping on its own or others' streams).
+#   ingest_user = the MQTT->SQLite ingestion service. May only SUBSCRIBE
+#                 to the assigned room topic — never publish (prevents a
+#                 compromised ingestion from spoofing sensor data back onto
+#                 the bus).
+#
+# Topic pattern matches the Config.MQTT_TOPIC_TEMPLATE used by the
+# simulator. A future multi-room rollout would add lines like:
+#       topic write home/room2/telemetry
+#       topic read  home/room2/telemetry
+# =============================================================================
+
+user sim_user
+topic write home/room1/telemetry
+
+user ingest_user
+topic read home/room1/telemetry
