@@ -11,7 +11,7 @@
 # =============================================================================
 FROM eclipse-mosquitto:2
 
-# Default dev credentials — overridable at build time.
+# Default dev credentials - overridable at build time.
 ARG SIM_USER=sim_user
 ARG SIM_USER_PASS=sim_pass
 ARG INGEST_USER=ingest_user
@@ -36,12 +36,17 @@ RUN chown -R mosquitto:mosquitto /mosquitto/certs /mosquitto/config \
 # Hash dev credentials into the passwd file so the stack boots for demos
 # without a manual mosquitto_passwd step. Production users should either
 # not set the build args and mount their own passwd, or regenerate after.
-RUN if [ -n "${SIM_USER_PASS}" ]; then \
+RUN rm -f /mosquitto/config/passwd \
+ && if [ -n "${SIM_USER_PASS}" ]; then \
         mosquitto_passwd -c -b /mosquitto/config/passwd "${SIM_USER}" "${SIM_USER_PASS}"; \
     fi \
  && if [ -n "${INGEST_USER_PASS}" ]; then \
         mosquitto_passwd -b    /mosquitto/config/passwd "${INGEST_USER}" "${INGEST_USER_PASS}"; \
-    fi
+    fi \
+ && mosquitto_passwd -b /mosquitto/config/passwd healthcheck healthcheckpass \
+ && chown mosquitto:mosquitto /mosquitto/config/passwd \
+ && chmod 600 /mosquitto/config/passwd \
+ && chmod 0700 /mosquitto/config/acl
 
 USER mosquitto
 
