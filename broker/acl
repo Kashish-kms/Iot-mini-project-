@@ -26,3 +26,6 @@ topic write home/room1/telemetry
 
 user ingest_user
 topic read home/room1/telemetry
+
+user healthcheck
+topic read $SYS/broker/uptime
