@@ -1,10 +1,10 @@
-"""Synthetic indoor sensor simulator with on-board privacy aggregation.
+﻿"""Synthetic indoor sensor simulator with on-board privacy aggregation.
 
 ``SensorGenerator`` is the entire synthetic sensor layer. It produces
 per-``SAMPLING_INTERVAL_SEC`` raw samples internally (temperature,
 humidity, CO2, motion) and **only** emits one aggregated summary per
 ``AGGREGATION_WINDOW_SEC``. The internal samples are discarded after
-averaging — they are never returned, never logged, and never handed to
+averaging ΓÇö they are never returned, never logged, and never handed to
 the publisher. This on-simulator (analogous to on-edge) aggregation is
 the project's data-minimization / privacy primitive.
 
@@ -19,7 +19,7 @@ Signal models
 * motion      : Bernoulli per raw sample with occupancy-driven bias
                 (high p if occupied, very low p if vacant). Aggregated to
                 ``max(motion)`` over the window (i.e. "was there ANY
-                motion in this minute" — just like a latching PIR).
+                motion in this minute" ΓÇö just like a latching PIR).
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ from .config import Config
 
 
 # ---------------------------------------------------------------------------
-# Private raw-sample dataclass — intentionally not exported.
+# Private raw-sample dataclass ΓÇö intentionally not exported.
 # Nothing outside this file ever sees individual raw samples.
 # ---------------------------------------------------------------------------
 @dataclass
@@ -64,7 +64,7 @@ class SensorGenerator:
     def __init__(self, config: Config, start_epoch_ms: Optional[int] = None):
         self.cfg = Config(**{**config.__dict__})
 
-        # Deterministic RNG — guarantees reproducibility across runs with
+        # Deterministic RNG ΓÇö guarantees reproducibility across runs with
         # identical seed + start_epoch.
         master_seed = int(config.RANDOM_SEED) ^ (int(config.SCENARIO_SEED) << 16)
         self._rng = np.random.default_rng(master_seed)
@@ -92,7 +92,7 @@ class SensorGenerator:
         self._co2_state: float = self.cfg.BASELINE_CO2_PPM
 
     # ------------------------------------------------------------------
-    # Public API — these are the ONLY ways to get data out of the
+    # Public API ΓÇö these are the ONLY ways to get data out of the
     # generator. Callers never see internal _RawSample objects.
     # ------------------------------------------------------------------
     def next_window(self) -> Dict:
@@ -108,10 +108,10 @@ class SensorGenerator:
             private fields (no drift, no asymptote, no per-sample data):
 
                 {"timestamp":   int   (epoch ms, window end),
-                 "temperature": float (°C, mean over window),
+                 "temperature": float (┬░C, mean over window),
                  "humidity":    float (%,  mean over window),
                  "co2":         int   (ppm, rounded mean over window),
-                 "motion":      int   (0 or 1, max over window — latching PIR),
+                 "motion":      int   (0 or 1, max over window ΓÇö latching PIR),
                  "room_id":     str}
         """
         buf: List[_RawSample] = []
@@ -120,7 +120,7 @@ class SensorGenerator:
             self._epoch_s += self.cfg.SAMPLING_INTERVAL_SEC
 
         agg = self._aggregate_window(buf)
-        # Internal raw samples are explicitly dropped — never serialized,
+        # Internal raw samples are explicitly dropped ΓÇö never serialized,
         # never logged, never returned.
         del buf
         return agg
@@ -139,7 +139,7 @@ class SensorGenerator:
         different SCENARIO_SEED values produce genuinely different
         occupancy patterns (used later for seed-split ML evaluation)."""
         rate_per_hour = self.cfg.OCCUPANCY_EVENT_RATE_PER_HOUR
-        # ±40 % scenario-dependent modulation.
+        # ┬▒40 % scenario-dependent modulation.
         scenario_shift = (hash(self.cfg.SCENARIO_SEED) % 1000) / 1000.0
         rate_per_hour *= 0.6 + 0.8 * scenario_shift
         mean_inter_sec = 3600.0 / rate_per_hour
@@ -175,7 +175,7 @@ class SensorGenerator:
         day_phase = 2.0 * math.pi * (self._epoch_s / 86400.0)
         # Daily sinusoid peaks at ~15:00 (phase 0 at midnight).
         temp_sin = self.cfg.TEMP_DAILY_AMPLITUDE_C * math.sin(
-            day_phase - math.pi / 2.0  # peak at day_phase = π → 12h
+            day_phase - math.pi / 2.0  # peak at day_phase = ╧Ç ΓåÆ 12h
         )
         self._temp_drift += self._rng.normal(
             0.0, self.cfg.TEMP_DRIFT_STD_PER_SEC * self.cfg.SAMPLING_INTERVAL_SEC
@@ -233,7 +233,7 @@ class SensorGenerator:
     def _aggregate_window(buf: List[_RawSample]) -> Dict:
         """Privacy-preserving window aggregation.
 
-        Only summary statistics survive here — the per-sample motion
+        Only summary statistics survive here ΓÇö the per-sample motion
         pattern that could fingerprint room activity is thrown away.
         """
         n = len(buf)
@@ -278,7 +278,7 @@ if __name__ == "__main__":
     gen._override_room_id(cfg.ROOM_ID)
 
     header = (
-        f"{'timestamp(ms)':>15}  {'T(°C)':>6}  {'H(%)':>6}  "
+        f"{'timestamp(ms)':>15}  {'T(┬░C)':>6}  {'H(%)':>6}  "
         f"{'CO2(ppm)':>8}  {'motion':>6}  {'room':<6}"
     )
     print(header)
@@ -298,7 +298,7 @@ if __name__ == "__main__":
     motions = [r["motion"] for r in rows]
     print()
     print("Sanity ranges over 10 windows:")
-    print(f"  temperature: min={min(temps):.2f}°C  max={max(temps):.2f}°C  (expected ~18-28 °C, nominal 19-23)")
+    print(f"  temperature: min={min(temps):.2f}┬░C  max={max(temps):.2f}┬░C  (expected ~18-28 ┬░C, nominal 19-23)")
     print(f"  humidity   : min={min(hums):.2f}%   max={max(hums):.2f}%   (expected ~30-70 %)")
     print(f"  co2        : min={min(co2s)} ppm   max={max(co2s)} ppm   (expected 400-2000+)")
     print(f"  motion     : any fired={1 if any(motions) else 0} (values must be 0 or 1)")
