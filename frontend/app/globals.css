@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #070B14;
+  --surface: #0D1527;
+  --surface-card: rgba(13, 21, 39, 0.7);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --cyan-neon: #22D3EE;
+  --violet-neon: #8B5CF6;
+  --safe: #10B981;
+  --moderate: #F59E0B;
+  --high-risk: #F43F5E;
+}
+
+.light {
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-card: rgba(255, 255, 255, 0.85);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+code, .font-mono, .telemetry-val {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Glassmorphism primitives */
+.glass-panel {
+  background: var(--surface-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-panel-glow {
+  background: var(--surface-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  box-shadow: 0 0 25px rgba(34, 211, 238, 0.12);
+}
+
+.glass-input {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #F8FAFC;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: #22D3EE;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.25);
+}
+
+/* Background Cyber Grid & Aurora */
+.cyber-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.aurora-glow {
+  background: radial-gradient(circle at 20% 15%, rgba(34, 211, 238, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 80% 25%, rgba(139, 92, 246, 0.18) 0%, transparent 45%),
+              radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+}
+
+/* Veil Motif */
+.veil-overlay {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(7, 11, 20, 0.8);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #22D3EE;
+}
