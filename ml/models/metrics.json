@@ -1,0 +1,148 @@
+{
+  "timestamp": "2026-10-07T21:51:25.879594",
+  "dataset_size_clean": 8617,
+  "dataset_size_raw": 8640,
+  "outliers_removed": 23,
+  "feature_names": [
+    "temperature",
+    "humidity",
+    "air_quality_ppm",
+    "motion_detected",
+    "heat_index",
+    "temp_rolling_mean_5",
+    "ppm_rolling_mean_5",
+    "d_temp_dt",
+    "d_ppm_dt",
+    "hour_sin",
+    "hour_cos",
+    "occupancy_persistence"
+  ],
+  "feature_importance": [
+    {
+      "feature": "air_quality_ppm",
+      "importance": 0.4494
+    },
+    {
+      "feature": "ppm_rolling_mean_5",
+      "importance": 0.3317
+    },
+    {
+      "feature": "temp_rolling_mean_5",
+      "importance": 0.0489
+    },
+    {
+      "feature": "occupancy_persistence",
+      "importance": 0.0457
+    },
+    {
+      "feature": "hour_sin",
+      "importance": 0.0322
+    },
+    {
+      "feature": "humidity",
+      "importance": 0.0284
+    },
+    {
+      "feature": "heat_index",
+      "importance": 0.0204
+    },
+    {
+      "feature": "temperature",
+      "importance": 0.0149
+    },
+    {
+      "feature": "d_ppm_dt",
+      "importance": 0.0134
+    },
+    {
+      "feature": "hour_cos",
+      "importance": 0.0096
+    },
+    {
+      "feature": "motion_detected",
+      "importance": 0.0048
+    },
+    {
+      "feature": "d_temp_dt",
+      "importance": 0.0007
+    }
+  ],
+  "models": {
+    "baseline": {
+      "model_name": "Rule-Based Baseline",
+      "accuracy": 0.9229,
+      "precision": 0.9404,
+      "recall": 0.9229,
+      "f1_score": 0.9221,
+      "latency_ms": 0.05,
+      "confusion_matrix": [
+        [
+          769,
+          0,
+          0
+        ],
+        [
+          2,
+          384,
+          131
+        ],
+        [
+          0,
+          0,
+          438
+        ]
+      ]
+    },
+    "logistic_regression": {
+      "model_name": "Logistic Regression",
+      "accuracy": 0.9872,
+      "precision": 0.9873,
+      "recall": 0.9872,
+      "f1_score": 0.9872,
+      "latency_ms": 0.0,
+      "confusion_matrix": [
+        [
+          766,
+          3,
+          0
+        ],
+        [
+          11,
+          500,
+          6
+        ],
+        [
+          0,
+          2,
+          436
+        ]
+      ]
+    },
+    "random_forest": {
+      "model_name": "Random Forest (Production)",
+      "accuracy": 0.9994,
+      "precision": 0.9994,
+      "recall": 0.9994,
+      "f1_score": 0.9994,
+      "latency_ms": 0.03,
+      "confusion_matrix": [
+        [
+          768,
+          1,
+          0
+        ],
+        [
+          0,
+          517,
+          0
+        ],
+        [
+          0,
+          0,
+          438
+        ]
+      ]
+    }
+  },
+  "best_model": "random_forest"
+}

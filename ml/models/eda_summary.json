@@ -1,0 +1,385 @@
+{
+  "statistics": {
+    "temperature": {
+      "min": -20.0,
+      "max": 75.0,
+      "mean": 21.72,
+      "std": 2.14
+    },
+    "humidity": {
+      "min": 44.09,
+      "max": 100.0,
+      "mean": 48.65,
+      "std": 2.44
+    },
+    "air_quality_ppm": {
+      "min": 370.0,
+      "max": 2500.0,
+      "mean": 678.48,
+      "std": 306.02
+    },
+    "total_samples": 8640,
+    "outlier_count": 23
+  },
+  "correlation_matrix": {
+    "columns": [
+      "temperature",
+      "humidity",
+      "air_quality_ppm",
+      "motion_detected",
+      "risk_level"
+    ],
+    "values": [
+      [
+        1.0,
+        -0.496,
+        0.366,
+        0.497,
+        0.362
+      ],
+      [
+        -0.496,
+        1.0,
+        -0.378,
+        -0.166,
+        -0.383
+      ],
+      [
+        0.366,
+        -0.378,
+        1.0,
+        0.491,
+        0.941
+      ],
+      [
+        0.497,
+        -0.166,
+        0.491,
+        1.0,
+        0.474
+      ],
+      [
+        0.362,
+        -0.383,
+        0.941,
+        0.474,
+        1.0
+      ]
+    ]
+  },
+  "hourly_patterns": [
+    {
+      "hour": 0,
+      "temperature": 20.06,
+      "humidity": 50.43,
+      "air_quality_ppm": 401.16,
+      "motion_detected": 0.05
+    },
+    {
+      "hour": 1,
+      "temperature": 19.56,
+      "humidity": 50.96,
+      "air_quality_ppm": 503.54,
+      "motion_detected": 0.06
+    },
+    {
+      "hour": 2,
+      "temperature": 19.3,
+      "humidity": 51.16,
+      "air_quality_ppm": 456.66,
+      "motion_detected": 0.04
+    },
+    {
+      "hour": 3,
+      "temperature": 19.48,
+      "humidity": 51.06,
+      "air_quality_ppm": 398.99,
+      "motion_detected": 0.06
+    },
+    {
+      "hour": 4,
+      "temperature": 19.73,
+      "humidity": 50.96,
+      "air_quality_ppm": 384.51,
+      "motion_detected": 0.04
+    },
+    {
+      "hour": 5,
+      "temperature": 20.21,
+      "humidity": 50.48,
+      "air_quality_ppm": 377.17,
+      "motion_detected": 0.04
+    },
+    {
+      "hour": 6,
+      "temperature": 20.51,
+      "humidity": 49.87,
+      "air_quality_ppm": 377.92,
+      "motion_detected": 0.04
+    },
+    {
+      "hour": 7,
+      "temperature": 20.96,
+      "humidity": 49.24,
+      "air_quality_ppm": 378.94,
+      "motion_detected": 0.05
+    },
+    {
+      "hour": 8,
+      "temperature": 21.92,
+      "humidity": 49.04,
+      "air_quality_ppm": 482.93,
+      "motion_detected": 0.44
+    },
+    {
+      "hour": 9,
+      "temperature": 22.12,
+      "humidity": 48.89,
+      "air_quality_ppm": 907.55,
+      "motion_detected": 0.84
+    },
+    {
+      "hour": 10,
+      "temperature": 22.42,
+      "humidity": 48.42,
+      "air_quality_ppm": 1058.76,
+      "motion_detected": 0.83
+    },
+    {
+      "hour": 11,
+      "temperature": 22.96,
+      "humidity": 47.37,
+      "air_quality_ppm": 1066.51,
+      "motion_detected": 0.8
+    },
+    {
+      "hour": 12,
+      "temperature": 23.14,
+      "humidity": 46.46,
+      "air_quality_ppm": 981.39,
+      "motion_detected": 0.44
+    },
+    {
+      "hour": 13,
+      "temperature": 23.87,
+      "humidity": 45.33,
+      "air_quality_ppm": 503.81,
+      "motion_detected": 0.05
+    },
+    {
+      "hour": 14,
+      "temperature": 24.77,
+      "humidity": 46.32,
+      "air_quality_ppm": 656.9,
+      "motion_detected": 0.84
+    },
+    {
+      "hour": 15,
+      "temperature": 23.94,
+      "humidity": 46.26,
+      "air_quality_ppm": 797.75,
+      "motion_detected": 0.83
+    },
+    {
+      "hour": 16,
+      "temperature": 23.8,
+      "humidity": 46.51,
+      "air_quality_ppm": 821.08,
+      "motion_detected": 0.86
+    },
+    {
+      "hour": 17,
+      "temperature": 23.42,
+      "humidity": 46.95,
+      "air_quality_ppm": 945.58,
+      "motion_detected": 0.8
+    },
+    {
+      "hour": 18,
+      "temperature": 23.1,
+      "humidity": 47.34,
+      "air_quality_ppm": 1076.27,
+      "motion_detected": 0.79
+    },
+    {
+      "hour": 19,
+      "temperature": 22.1,
+      "humidity": 47.47,
+      "air_quality_ppm": 987.41,
+      "motion_detected": 0.43
+    },
+    {
+      "hour": 20,
+      "temperature": 21.4,
+      "humidity": 48.42,
+      "air_quality_ppm": 902.45,
+      "motion_detected": 0.45
+    },
+    {
+      "hour": 21,
+      "temperature": 21.22,
+      "humidity": 49.03,
+      "air_quality_ppm": 654.83,
+      "motion_detected": 0.45
+    },
+    {
+      "hour": 22,
+      "temperature": 20.95,
+      "humidity": 49.79,
+      "air_quality_ppm": 631.04,
+      "motion_detected": 0.43
+    },
+    {
+      "hour": 23,
+      "temperature": 20.27,
+      "humidity": 49.91,
+      "air_quality_ppm": 530.26,
+      "motion_detected": 0.07
+    }
+  ],
+  "label_distribution": [
+    {
+      "label": "Safe",
+      "value": 3846,
+      "percentage": 44.5
+    },
+    {
+      "label": "Moderate",
+      "value": 2587,
+      "percentage": 29.9
+    },
+    {
+      "label": "High Risk",
+      "value": 2207,
+      "percentage": 25.5
+    }
+  ],
+  "histograms": {
+    "temperature": [
+      {
+        "range": "-20.0--10.5",
+        "count": 4
+      },
+      {
+        "range": "-10.5--1.0",
+        "count": 0
+      },
+      {
+        "range": "-1.0-8.5",
+        "count": 0
+      },
+      {
+        "range": "8.5-18.0",
+        "count": 2
+      },
+      {
+        "range": "18.0-27.5",
+        "count": 8631
+      },
+      {
+        "range": "27.5-37.0",
+        "count": 0
+      },
+      {
+        "range": "37.0-46.5",
+        "count": 0
+      },
+      {
+        "range": "46.5-56.0",
+        "count": 0
+      },
+      {
+        "range": "56.0-65.5",
+        "count": 0
+      },
+      {
+        "range": "65.5-75.0",
+        "count": 3
+      }
+    ],
+    "humidity": [
+      {
+        "range": "44.1-49.7",
+        "count": 5571
+      },
+      {
+        "range": "49.7-55.3",
+        "count": 3061
+      },
+      {
+        "range": "55.3-60.9",
+        "count": 0
+      },
+      {
+        "range": "60.9-66.5",
+        "count": 0
+      },
+      {
+        "range": "66.5-72.0",
+        "count": 0
+      },
+      {
+        "range": "72.0-77.6",
+        "count": 0
+      },
+      {
+        "range": "77.6-83.2",
+        "count": 0
+      },
+      {
+        "range": "83.2-88.8",
+        "count": 0
+      },
+      {
+        "range": "88.8-94.4",
+        "count": 0
+      },
+      {
+        "range": "94.4-100.0",
+        "count": 8
+      }
+    ],
+    "air_quality_ppm": [
+      {
+        "range": "370.0-583.0",
+        "count": 4266
+      },
+      {
+        "range": "583.0-796.0",
+        "count": 1355
+      },
+      {
+        "range": "796.0-1009.0",
+        "count": 1377
+      },
+      {
+        "range": "1009.0-1222.0",
+        "count": 1054
+      },
+      {
+        "range": "1222.0-1435.0",
+        "count": 580
+      },
+      {
+        "range": "1435.0-1648.0",
+        "count": 0
+      },
+      {
+        "range": "1648.0-1861.0",
+        "count": 0
+      },
+      {
+        "range": "1861.0-2074.0",
+        "count": 0
+      },
+      {
+        "range": "2074.0-2287.0",
+        "count": 0
+      },
+      {
+        "range": "2287.0-2500.0",
+        "count": 8
+      }
+    ]
+  }
+}
