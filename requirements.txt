@@ -15,5 +15,5 @@ matplotlib>=3.7
 seaborn>=0.12
 
 # ---- dashboard ----
-streamlit>=1.28
+streamlit>=1.28,<1.50
 plotly>=5.17
