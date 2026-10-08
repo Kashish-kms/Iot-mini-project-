@@ -23,8 +23,9 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+# lib/ scoped to Python virtualenv paths only (NOT frontend/lib/)
+backend/lib/
+backend/lib64/
 parts/
 sdist/
 var/
@@ -32,6 +33,9 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Node / JS
+node_modules/
 
 # ML Models & Serialized Artifacts
 *.joblib
